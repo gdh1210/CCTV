@@ -305,7 +305,7 @@ CCTV 화면 연결부분 작성
 블루투스통신기능 구현필요
 
 # MyHomeCCTV.java
-다량의 스레드의 사용과 코드가 길어져서 영상의 비트맵 처리부분 분리하여 연결
+다량의 스레드의 사용과 코드가 길어져서 복잡하기 때문에 영상 이미지 비트맵 처리부분을 분리하여 연결
 ```java
 public class MyHomeCCTV extends SurfaceView implements SurfaceHolder.Callback, Runnable {
     private Thread threadSView;
@@ -440,17 +440,60 @@ public class MyHomeCCTV extends SurfaceView implements SurfaceHolder.Callback, R
 }
 ```
 
+비트맵 이미지 처리부분은 이미 제공되어있는 오픈 소스를 활용하여 복사 후 세부사항 작성<br>
 공용 IP 캠 주소 받아서 영상동작 테스트 결과 성공
-비트맵 이미지 처리부분은 이미 제공되어있는 오픈 소스를 활용하여 복사 후 세부사항 작성
 
 <div align="center">
 <img src="https://github.com/user-attachments/assets/74294fa2-4732-484e-9b06-edc293677e8c" width="400" height="800">
 </div>
 
+시행착오 및 정리
+
+문제점
+
+* 영상 통신과정에서 상당히 많은 문제들이 있었는데 몇가지 예를 들자면
+  1. 영상전환과 영상처리를 하나의 스레드에 넣었더니 과부하로 ANR 오류로 어플이 정지하기도 하고
+  2. 각 surfaceView 마다 스레드를 지정하고 초기화를 제대로 해주지 않아 스레드간 충돌로 강제 종료되기도 하고
+  3. 화면 전환시 스레드 종료 및 초기화 코드를 넣어주지 않아 한번 전환하면 다시 안켜지기도 하고
+  4. 그외에도 방화벽 보안 문제로 영상을 못받거나 url 주소가 특이하게 mjpeg 가 없는경우 비트맵을 읽어오지 못하기도 하고
+     대부분이 통신이나 스레드 문제로 참 많은 오류들이 있었다
+
+해결법
+
+* 스레드를 surfaceView 마다 새로 배정하고 영상처리는 분리하여 과부하를 방지하고
+* UI를 업데이트 하는 surfaceView는 백그라운드에서 작동하도록 runOnUiThread() 처리를 통해 메모리를 덜 사용하게 하였다
+* showSurfaceView 의 화면전환과 onDestroy 의 화면전환 시의 초기화 및 파괴 작업을 더 철저히 하고
+* 안드로이드의 보안 업데이트로 인해 https:// 로 보안이 되어있는 사이트가 아니면 접근을 막아버리기 때문에 허용해주는 xml을 따로 만들어 주었다
+  
+# neftwork_security_config.xml
+도메인의 보안 허용
+
+```xml
+<?xml version="1.0" encoding="utf-8"?>
+<network-security-config>
+    <domain-config cleartextTrafficPermitted="true">
+        <domain includeSubdomains="true">220.233.144.165</domain>
+        <domain includeSubdomains="true">80.75.112.38</domain>
+        <domain includeSubdomains="true">63.142.183.154</domain>
+        <domain includeSubdomains="true">192.168.0.1</domain>
+        <domain includeSubdomains="true">192.168.0.100</domain>
+        <domain includeSubdomains="true">192.168.0.108</domain>
+        <domain includeSubdomains="true">192.168.0.63</domain>
+        <domain includeSubdomains="true">192.168.137.228</domain>
+        <domain includeSubdomains="true">202.239.224.34</domain>
+        <domain includeSubdomains="true">192.168.0.128</domain>
+        <domain includeSubdomains="true">79.141.146.83</domain>
+        <domain includeSubdomains="true">192.168.0.109</domain>
+        <domain includeSubdomains="true">192.168.0.39</domain>
+    </domain-config>
+</network-security-config>
+```
 ---
 ### 08-26(월)
 
 # ControlLightActivity.java
+조명 관리 부분 작성 (버튼 동작과 UI부분만 작성)
+
 ```java
 public class ControlLightActivity extends AppCompatActivity {
 
@@ -532,4 +575,109 @@ public class ControlLightActivity extends AppCompatActivity {
 <div align="center">
 <img src="https://github.com/user-attachments/assets/e1e14b42-2833-4603-acff-b52ba472db9b" width="400" height="800">
 </div>
+
+# 
+
+```java
+package com.myapplication;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.content.Intent;
+import android.os.Bundle;
+import android.widget.Button;
+import android.widget.SeekBar;
+import android.widget.TextView;
+import android.view.View;
+
+public class CheckTemperatureActivity extends AppCompatActivity {
+
+    private TextView currentTemperatureTextView;
+    private TextView targetTemperatureTextView;
+    private SeekBar temperatureSeekBar;
+    private Button increaseButton;
+    private Button applyButton;
+    private Button decreaseButton;
+    private static final int MIN_TEMPERATURE = 16; // 설정할 최소 온도 값
+    private static final int MAX_TEMPERATURE = 40; // 설정할 최대 온도 값
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.controltemp);
+
+        // UI 요소 초기화
+        currentTemperatureTextView = findViewById(R.id.temptv_2);
+        targetTemperatureTextView = findViewById(R.id.temptv_4);
+        temperatureSeekBar = findViewById(R.id.tempbar_1);
+        increaseButton = findViewById(R.id.tempbt_1);
+        applyButton = findViewById(R.id.tempbt_2);
+        decreaseButton = findViewById(R.id.tempbt_3);
+
+        // SeekBar 설정
+        temperatureSeekBar.setMax(MAX_TEMPERATURE); // 최대값 설정
+        temperatureSeekBar.setProgress(28); // 기본값 설정
+        targetTemperatureTextView.setText(String.valueOf(28));
+
+        // SeekBar 변경에 따른 텍스트 업데이트
+        temperatureSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                // 최소값을 확인하고 최소값보다 작으면 최소값으로 설정
+                int adjustedProgress = Math.max(progress, MIN_TEMPERATURE);
+                seekBar.setProgress(adjustedProgress);
+                targetTemperatureTextView.setText(String.valueOf(adjustedProgress));
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+                // 터치 시작 시 처리할 작업이 있으면 여기에 작성
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+                // 터치 중단 시 처리할 작업이 있으면 여기에 작성
+            }
+        });
+
+        // 증가 버튼 클릭 이벤트 처리
+        increaseButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int currentProgress = temperatureSeekBar.getProgress();
+                if (currentProgress < MAX_TEMPERATURE) {
+                    temperatureSeekBar.setProgress(currentProgress + 1);
+                    targetTemperatureTextView.setText(String.valueOf(currentProgress + 1));
+                }
+            }
+        });
+
+        // 적용 버튼 클릭 이벤트 처리
+        applyButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String targetTemperature = targetTemperatureTextView.getText().toString();
+                currentTemperatureTextView.setText(targetTemperature);
+            }
+        });
+
+        // 감소 버튼 클릭 이벤트 처리
+        decreaseButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int currentProgress = temperatureSeekBar.getProgress();
+                if (currentProgress > MIN_TEMPERATURE) {
+                    temperatureSeekBar.setProgress(currentProgress - 1);
+                    targetTemperatureTextView.setText(String.valueOf(currentProgress - 1));
+                }
+            }
+        });
+    }
+
+    public void back_to_main(View view) {
+        Intent intent = new Intent(CheckTemperatureActivity.this, MainActivity.class);
+        startActivity(intent);
+    }
+}
+```
 
