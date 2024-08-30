@@ -3,6 +3,21 @@ CCTV AIoT 프로젝트
 ---
 08-22(목)
 
+바탕화면 밋밋해서 그라데이션 파랑색 강조로 제작
+    <?xml version="1.0" encoding="utf-8"?>
+    <shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+    <gradient
+        android:angle="90"
+        android:centerColor="#202020"
+        android:endColor="#000000"
+        android:startColor="#102040"
+        android:type="linear" />
+    </shape>
+
+색감 예시
+<img src="https://github.com/user-attachments/assets/04751f85-2e46-481f-b790-45b54a721435" width="400" height="400">
+
 로그인 화면 제작 (ID 부분만 설정)
 
     public class LoginActivity extends AppCompatActivity {
