@@ -49,8 +49,10 @@ CCTV AIoT 프로젝트
     }
 
 로그인 버튼의 화면전환 기능의 필요
-<img src="https://github.com/user-attachments/assets/3e68a324-ec70-4050-92ec-cf7f57cf2dbb" width="400" height="700">
 
+<div align="center">
+<img src="https://github.com/user-attachments/assets/3e68a324-ec70-4050-92ec-cf7f57cf2dbb" width="400" height="700">
+</div>
 메인 연결 부분 작성
 
     public class MainActivity extends AppCompatActivity {
@@ -79,7 +81,10 @@ CCTV AIoT 프로젝트
     public void back_to_login(View view) {}
 
 버튼의 기능구현 필요
+
+<div align="center">
 <img src="https://github.com/user-attachments/assets/48eff80c-e72b-4759-bed4-2ce1bc00ac09" width="400" height="700">
+</div>
 
 시행착오 및 정리
 UI 부분을 제작하는데 디자인적 요소에 대한 많은 고민을 하여 적지않은 시간을 소모
@@ -96,6 +101,84 @@ bt_gradient
 
 ---
 08-24(금)
+
+로그인 부분에 미완성된 연결부분 완료
+
+    public void login(View v) {
+        String username = et1.getText().toString();
+        String password = et2.getText().toString();
+
+        if (username.isEmpty() || password.isEmpty()) {
+            tv1.setText("아이디와 비밀번호를 입력하세요!");
+        } else if (!username.equals("admin")) {
+            tv1.setText("아이디가 일치하지 않습니다");
+        } else {
+            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+            startActivity(intent);
+            finish();
+        }
+    }
+
+메인부분도 일단 빈 레이아웃 생성 후 연결
+
+    //CCTV 센서
+    public void navigateToCCTVControl(View view) {
+        Intent intent = new Intent(MainActivity.this, ControlCCTVActivity.class);
+        startActivity(intent);
+    }
+
+    //조명 센서
+    public void controlLight(View view) {
+        Intent intent = new Intent(MainActivity.this, ControlLightActivity.class);
+        startActivity(intent);
+    }
+
+    //온도 센서
+    public void checkTemperature(View view) {
+        Intent intent = new Intent(MainActivity.this, CheckTemperatureActivity.class);
+        startActivity(intent);
+    }
+
+    //음성 통화
+    public void VoiceTalk(View view) {
+        Intent intent = new Intent(MainActivity.this, voice.class);
+        startActivity(intent);
+    }
+
+    //로그인으로 돌아가기
+    public void back_to_login(View view) {
+        Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+        startActivity(intent);
+    }
+
+
+
+
+
+
+
+시행착오 및 정리
+처음에 화면전환 부분을 setContentView(R.layout.레이아웃이름) 으로 작성했는데 로그인과 메인만 왔다갔다 하면 문제가 없지만 ControlCCTVActivity 
+에서 되돌아 나올 때 앱이 정지하는 문제가 발생
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
     public class ControlCCTVActivity extends AppCompatActivity {
