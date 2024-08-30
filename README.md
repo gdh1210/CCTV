@@ -5,10 +5,10 @@ CCTV AIoT 프로젝트
 
 바탕화면 밋밋해서 그라데이션 파랑색 강조로 제작
     <?xml version="1.0" encoding="utf-8"?>
-    <shape xmlns:android="http://schemas.android.com/apk/res/android"
-    android:shape="rectangle">
-    <gradient
-        android:angle="90"
+        <shape xmlns:android="http://schemas.android.com/apk/res/android"
+        android:shape="rectangle">
+        <gradient
+         android:angle="90"
         android:centerColor="#202020"
         android:endColor="#000000"
         android:startColor="#102040"
