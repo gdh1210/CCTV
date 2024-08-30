@@ -32,7 +32,7 @@ CCTV AIoT 프로젝트
 
 
 ![image](https://github.com/user-attachments/assets/b967589f-642f-4d2c-8ac3-5be3fdebc2df)
-<img src="/img/myImg.png" width="300" height="300">
+<image src="/img/myImg.png" width="300" height="300">
 
 
 메인 연결 부분 작성
