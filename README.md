@@ -5,10 +5,8 @@
 
 바탕화면 밋밋해서 그라데이션 파랑색 강조로 제작
 
+'''xml
     <?xml version="1.0" encoding="utf-8"?>
-    
-${\textsf{\color{green}Green}}$
-
         <shape xmlns:android="http://schemas.android.com/apk/res/android"
         android:shape="rectangle">
         <gradient
@@ -18,7 +16,7 @@ ${\textsf{\color{green}Green}}$
         android:startColor="#102040"
         android:type="linear" />
     </shape>
-
+    
 색감 예시
 <div align="center">
 <img src="https://github.com/user-attachments/assets/04751f85-2e46-481f-b790-45b54a721435" width="400" height="400">
@@ -101,8 +99,11 @@ bt_cleanline
 bt_gradient
 
 문제점
+
 * 버튼의 경우 신버전으로 넘어오면서 그냥 background에 그라데이션을 적용시 변하지않음
+
 해결법
+
 * <Button></Button> 대신 <androidx.appcompat.widget.AppCompatButton></> 사용
 
 ---
