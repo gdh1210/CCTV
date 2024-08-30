@@ -74,6 +74,10 @@ CCTV AIoT 프로젝트
     //로그인으로 돌아가기
     public void back_to_login(View view) {}
 
+<img src="![image](https://github.com/user-attachments/assets/48eff80c-e72b-4759-bed4-2ce1bc00ac09)" width="400" height="700">
+
 ---
 08-24(금)
+
+<img src="https://github.com/user-attachments/assets/3e68a324-ec70-4050-92ec-cf7f57cf2dbb" width="400" height="700">
 
