@@ -30,7 +30,7 @@ CCTV AIoT 프로젝트
         } else {}
     }
 
-<img src="https://github.com/user-attachments/assets/b967589f-642f-4d2c-8ac3-5be3fdebc2df" width="300" height="300">
+<img src="URL입력" width="400" height="700">
 
 
 
