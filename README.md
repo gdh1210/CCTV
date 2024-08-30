@@ -6,7 +6,8 @@
 바탕화면 밋밋해서 그라데이션 파랑색 강조로 제작
 
     <?xml version="1.0" encoding="utf-8"?>
-    ${\textsf{\color{green}Green}}$
+    
+${\textsf{\color{green}Green}}$
 
         <shape xmlns:android="http://schemas.android.com/apk/res/android"
         android:shape="rectangle">
@@ -89,17 +90,20 @@
 </div>
 
 시행착오 및 정리
-UI 부분을 제작하는데 디자인적 요소에 대한 많은 고민을 하여 적지않은 시간을 소모
-그라데이션 적용 및 밝기 조절 글자 크기 획일화 가독성을 높이 는데 집중함 이후에 만들 xml은 이번에 만든 그라데이션 목록과 기능을 그대로 사용
+* UI 부분을 제작하는데 디자인적 요소에 대한 많은 고민을 하여 적지않은 시간을 소모
+* 그라데이션 적용 및 밝기 조절 글자 크기 획일화 가독성을 높이 는데 집중함 이후에 만들 xml은 이번에 만든 그라데이션 목록과 기능을 그대로 사용
+
 목록
-bg_gradient
+> bg_gradient
 bg_gradient2
 bg_gradient3
 bt_cleanline
 bt_gradient
 
-버튼의 경우 신버전으로 넘어오면서 그냥 background에 그라데이션을 적용시 변하지않음
-<Button></Button> 대신 <androidx.appcompat.widget.AppCompatButton></> 사용
+문제점
+* 버튼의 경우 신버전으로 넘어오면서 그냥 background에 그라데이션을 적용시 변하지않음
+해결법
+* <Button></Button> 대신 <androidx.appcompat.widget.AppCompatButton></> 사용
 
 ---
 08-24(금)
