@@ -571,25 +571,16 @@ public class ControlLightActivity extends AppCompatActivity {
     }
 }
 ```
+우선은 동작만 가능하도록 구현
 
 <div align="center">
 <img src="https://github.com/user-attachments/assets/e1e14b42-2833-4603-acff-b52ba472db9b" width="400" height="800">
 </div>
 
-# 
+# CheckTemperatureActivity.java
+온도 설정 부분 작성(버튼 동작과 UI부분만 작성)
 
 ```java
-package com.myapplication;
-
-import androidx.appcompat.app.AppCompatActivity;
-
-import android.content.Intent;
-import android.os.Bundle;
-import android.widget.Button;
-import android.widget.SeekBar;
-import android.widget.TextView;
-import android.view.View;
-
 public class CheckTemperatureActivity extends AppCompatActivity {
 
     private TextView currentTemperatureTextView;
@@ -680,4 +671,13 @@ public class CheckTemperatureActivity extends AppCompatActivity {
     }
 }
 ```
+마찬가지로 우선은 동작만 가능하도록 구현
+
+<div align="center">
+<img src="https://github.com/user-attachments/assets/bf9f39c4-1e1a-4c51-9bed-11e696c25d55" width="400" height="800">
+</div>
+
+시행착오 및 정리
+
+* UI 제작부분이다 보니까 약간은 생소한 Seekbar 를 세로형태로 돌려서 만들때를 제외하곤 순조롭게 진행했던 것 같다.
 
