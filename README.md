@@ -1,6 +1,7 @@
 ![Android Studio](https://img.shields.io/badge/android%20studio-346ac1?style=for-the-badge&logo=android%20studio&logoColor=white)<br>
+
 # CCTV AIoT 프로젝트
----
+
 ### 08-22(목)
 
 바탕화면 밋밋해서 그라데이션 파랑색 강조로 제작
@@ -23,7 +24,7 @@
 <img src="https://github.com/user-attachments/assets/04751f85-2e46-481f-b790-45b54a721435" width="400" height="400">
 </div>
 
-# LoginActivity.java
+## LoginActivity.java
 로그인 화면 제작 (ID 부분만 설정)
 
 ```java
@@ -60,7 +61,7 @@
 </div>
 
 
-# MainActivity.java
+## MainActivity.java
 메인 연결 부분 작성
 
 ```java
@@ -118,7 +119,7 @@ bt_gradient
 ---
 ### 08-24(금)
 
-# LoginActivity.java
+## LoginActivity.java
 로그인 부분에 미완성된 연결부분 완료
 
 ```java
@@ -138,7 +139,7 @@ bt_gradient
     }
 ```
 
-# MainActivity.java
+## MainActivity.java
 메인부분도 일단 빈 레이아웃 생성 후 연결
 
 ```java
@@ -184,7 +185,7 @@ bt_gradient
 
 * 문제 분석 결과 데이터를 전달 하는 과정에서 setContentView(R.layout.레이아웃이름) 을 사용해 전환하는 경우 데이터가 소실되어 java.lang.IllegalStateException 문제가 발견됨 Intent를 사용하여 액티비티를 유지하여 데이터 손실을 방지하며 전환간의 상호 데이터 전달이 용이하고 복잡한 UI의 전환 처리에 적합한 형태로 변경
 
-# ControlCCTVActivity
+## ControlCCTVActivity
 CCTV 화면 연결부분 작성
 
 ```java
@@ -304,7 +305,7 @@ CCTV 화면 연결부분 작성
 ```
 블루투스통신기능 구현필요
 
-# MyHomeCCTV.java
+## MyHomeCCTV.java
 다량의 스레드의 사용과 코드가 길어져서 복잡하기 때문에 영상 이미지 비트맵 처리부분을 분리하여 연결
 ```java
 public class MyHomeCCTV extends SurfaceView implements SurfaceHolder.Callback, Runnable {
@@ -491,7 +492,7 @@ public class MyHomeCCTV extends SurfaceView implements SurfaceHolder.Callback, R
 ---
 ### 08-26(월)
 
-# ControlLightActivity.java
+## ControlLightActivity.java
 조명 관리 부분 작성 (버튼 동작과 UI부분만 작성)
 
 ```java
@@ -577,7 +578,7 @@ public class ControlLightActivity extends AppCompatActivity {
 <img src="https://github.com/user-attachments/assets/e1e14b42-2833-4603-acff-b52ba472db9b" width="400" height="800">
 </div>
 
-# CheckTemperatureActivity.java
+## CheckTemperatureActivity.java
 온도 설정 부분 작성(버튼 동작과 UI부분만 작성)
 
 ```java
