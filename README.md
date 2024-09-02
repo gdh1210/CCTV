@@ -681,10 +681,17 @@ public class CheckTemperatureActivity extends AppCompatActivity {
 시행착오 및 정리
 
 * UI 제작부분이다 보니까 약간은 생소한 Seekbar 를 세로형태로 돌려서 만들때를 제외하곤 순조롭게 진행했던 것 같다.
+* https://github.com/gdh1210/Server_Host 에서 추가로 서버를 제작
+
 ---
 ### 08-27(화)
 
 # ControlCCTVActivity.java
+
+저번의 미완성된 각종 통신기능을 구현 하였다
+1. 블루투스 통신기능
+2. UDP 서버로 명령전달
+ 
 ```java
 public class ControlCCTVActivity extends AppCompatActivity {
     private MyHomeCCTV surfaceView1;
@@ -916,30 +923,6 @@ public class ControlCCTVActivity extends AppCompatActivity {
         sendMsg(command);
     }
 
-    private void handleVoiceCommand(String command) {
-        String btCommand = "";
-        switch (command) {
-            case "위로":
-                btCommand = "U";
-                break;
-            case "아래로":
-                btCommand = "D";
-                break;
-            case "왼쪽":
-                btCommand = "L";
-                break;
-            case "오른쪽":
-                btCommand = "R";
-                break;
-            default:
-                Toast.makeText(this, "알 수 없는 명령: " + command, Toast.LENGTH_SHORT).show();
-                return;
-        }
-        sendBluetoothCommand(btCommand);
-        Log.d("UDPClient", "Send: " + btCommand);
-        sendMsg(btCommand);
-    }
-
     public void sendMsg(String msgText) {
         new Thread(() -> {
             DatagramSocket ds = null;
@@ -963,19 +946,6 @@ public class ControlCCTVActivity extends AppCompatActivity {
         Toast.makeText(this, "침입 감지 기능을 활성화합니다.", Toast.LENGTH_SHORT).show();
     }
 
-    public void communicate(View view) {
-        // 음성 인식 인텐트 호출
-        Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
-        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
-        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.KOREA);
-        intent.putExtra(RecognizerIntent.EXTRA_PROMPT, "명령어를 말하세요");
-        try {
-            startActivityForResult(intent, VOICE_REQUEST_CODE);
-        } catch (Exception e) {
-            Toast.makeText(this, "음성 인식에 실패했습니다.", Toast.LENGTH_SHORT).show();
-        }
-    }
-
     public void back_to_main(View view) {
         finish();
         Intent intent = new Intent(ControlCCTVActivity.this, MainActivity.class);
@@ -984,3 +954,109 @@ public class ControlCCTVActivity extends AppCompatActivity {
 }
 ```
 
+블루투스에서 아두이노로 직접 연결할 수 있는 기능을 구현 하였고<br>
+인텔리 제이에서 열어놓은 UDP 서버와도 통신이 가능하도록 구현하였다.
+
+시행착오 및 정리
+
+문제점
+* 블루투스 기능을 구현하기 전 권한을 받아오거나 허용을 요청하는 사항에대한 예외 처리및 로직 구현이 변수가 많아서 작성하는데 꽤나 애먹었다.
+* 같은 유선상의 서버통신인 에뮬레이터로는 성공하는 반면 안드로이드(핸드폰)에서 실행 하는 경우 서버에서 수신을 못하는 일이 발생하였다.
+
+해결법
+* 블루투스를 앱실행시 권한여부를 확인하는 코드와 권한이 없을시 예외처리부분을 작성했고 매번 킬때 마다 허용해주지 않아도 알아서 권한이 들어가도록 설정했다.
+* 컴퓨터의 인터넷 에서 (네트워크 및 인터넷 설정 - 속성(연결된 wifi) - 네트워크 프로필 - 공용) 으로 변경해주니 해결되었다.
+* 통신이 되지 않는 정확한 원인은 알 수 없었으나 통신과 관련된 윈도우즈의 정책과 관련이 있지 않을까 추측된다.
+
+# ControlLightActivity.java
+
+```java
+    // ToggleButton 클릭 이벤트 처리
+    public void onToggleClicked(View view) {
+        boolean isChecked = ((ToggleButton) view).isChecked();
+        String command = "";
+        // 각 ToggleButton에 대해 ON/OFF 상태에 따른 작업 수행
+        if (view.getId() == R.id.controllighttb_1) {
+            if (isChecked) {
+                tb1.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.main_on, 0, 0);
+                command = "a";
+            } else {
+                tb1.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.main_off, 0, 0);
+                command = "b";
+            }
+        } else if (view.getId() == R.id.controllighttb_2) {
+            if (isChecked) {
+                tb2.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.main_on, 0, 0);
+                command = "c";
+            } else {
+                tb2.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.main_off, 0, 0);
+                command = "d";
+            }
+        } else if (view.getId() == R.id.controllighttb_3) {
+            if (isChecked) {
+                tb3.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.main_on, 0, 0);
+                command = "e";
+            } else {
+                tb3.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.main_off, 0, 0);
+                command = "f";
+            }
+        } else if (view.getId() == R.id.controllighttb_4) {
+            if (isChecked) {
+                tb4.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.main_on, 0, 0);
+                command = "g";
+            } else {
+                tb4.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.main_off, 0, 0);
+                command = "h";
+            }
+        } else if (view.getId() == R.id.controllighttb_5) {
+            if (isChecked) {
+                tb5.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.main_on, 0, 0);
+            } else {
+                tb5.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.main_off, 0, 0);
+            }
+        } else if (view.getId() == R.id.controllighttb_6) {
+            if (isChecked) {
+                tb6.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.main_on, 0, 0);
+            } else {
+                tb6.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.main_off, 0, 0);
+            }
+        }
+        Log.d("UDPClient", "Send: " + command);
+        sendMsg2(command);
+    }
+
+    public void sendMsg2(String msgText) { new Thread(new Runnable() {
+        @Override
+        public void run() {
+            try {
+                DatagramSocket ds = new DatagramSocket();
+                InetAddress ia = InetAddress.getByName(
+                        "192.168.0.39");
+                DatagramPacket dp=new DatagramPacket(
+                        msgText.getBytes(),
+                        msgText.getBytes().length,
+                        ia, 7777);
+                ds.send(dp);
+                ds.close();
+            } catch (Exception e) {
+                Log.d("UDPClient", "Exception: " + e.getMessage());
+            }
+        }
+    }).start();
+    }
+
+    public void back_to_main(View view) {
+        Intent intent = new Intent(ControlLightActivity.this, MainActivity.class);
+        startActivity(intent);
+    }
+}
+```
+
+---
+### 08-28(수) open ai서버 연결
+
+
+---
+### 08-29(목)  음성 인식기능
+---
+### 08-30(금)  음성통화기능
