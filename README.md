@@ -10,18 +10,18 @@
 
 1. [08-22(목)UI/UX제작 로그인,메인메뉴 구성](#0822목)
    
-2. [08-23 CCTV연결 비트맵 영상처리 구현](#08-23금)
+2. [08-23 CCTV연결 비트맵 영상처리 구현](#0823금)
    
-3. [08-26 UI/UX제작 조명,온도 조절장치 구성](#08-26(월))
+3. [08-26 UI/UX제작 조명,온도 조절장치 구성](#0826월)
    > 번외 UDP 서버구성
 
-4. [08-27 블루투스, UDP 서버 통신 연결 구현](#08-27(화))
+4. [08-27 블루투스, UDP 서버 통신 연결 구현](#0827화)
    
-5. [08-28](#08-28(수))
+5. [08-28](#0828수)
    
-6. [08-29](#08-29(목))
+6. [08-29](#0829목)
     
-7. [08-30](#08-30(금))
+7. [08-30](#0830금)
 
 ---
 ### 08.22(목)
@@ -139,7 +139,7 @@ bt_gradient
 * < Button> </ Button> 대신 <androidx.appcompat.widget.AppCompatButton></> 사용
 
 ---
-### 08-24(금)
+### 08.23(금)
 
 ## LoginActivity.java
 로그인 부분에 미완성된 연결부분 완료
@@ -512,7 +512,7 @@ public class MyHomeCCTV extends SurfaceView implements SurfaceHolder.Callback, R
 </network-security-config>
 ```
 ---
-### 08-26(월)
+### 08.26(월)
 
 ## ControlLightActivity.java
 조명 관리 부분 작성 (버튼 동작과 UI부분만 작성)
@@ -706,7 +706,7 @@ public class CheckTemperatureActivity extends AppCompatActivity {
 * https://github.com/gdh1210/Server_Host 에서 추가로 서버를 제작
 
 ---
-### 08-27(화)
+### 08.27(화)
 
 # ControlCCTVActivity.java
 
@@ -1080,10 +1080,10 @@ public class ControlCCTVActivity extends AppCompatActivity {
 
 
 ---
-### 08-28(수) open ai서버 연결
+### 08.28(수) open ai서버 연결
 
 
 ---
-### 08-29(목)  음성 인식기능
+### 08.29(목)  음성 인식기능
 ---
-### 08-30(금)  음성통화기능
+### 08.30(금)  음성통화기능
