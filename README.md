@@ -4,6 +4,7 @@
 
 <div align="center">
 <img src="https://img.shields.io/badge/android%20studio-346ac1?style=for-the-badge&logo=android%20studio&logoColor=white">
+<img src="https://img.shields.io/badge/IntelliJ_IDEA-000000.svg?style=for-the-badge&logo=intellij-idea&logoColor=white">
 </div>
 
 ## 목차
@@ -975,17 +976,23 @@ public class ControlCCTVActivity extends AppCompatActivity {
     }
 }
 ```
+버튼을 눌러 상하좌우 클릭시 정상적으로 U,D,L,R 이 서버로 전송되는 것을 확인 할 수가 있다.
+
+<div align="center">
+<img src="https://github.com/user-attachments/assets/bc3e9691-c56b-4559-b2c9-f7da13dff0ed" width="400" height="800">
+<img src="https://github.com/user-attachments/assets/76ca85ea-ed5c-438b-9a48-8ac7590cfbeb" width="400" height="600">
+</div>
 
 블루투스에서 아두이노로 직접 연결할 수 있는 기능을 구현 하였고<br>
 인텔리 제이에서 열어놓은 UDP 서버와도 통신이 가능하도록 구현하였다.
 
 시행착오 및 정리
 
-문제점
+:x:문제점
 * 블루투스 기능을 구현하기 전 권한을 받아오거나 허용을 요청하는 사항에대한 예외 처리및 로직 구현이 변수가 많아서 작성하는데 꽤나 애먹었다.
 * 같은 유선상의 서버통신인 에뮬레이터로는 성공하는 반면 안드로이드(핸드폰)에서 실행 하는 경우 서버에서 수신을 못하는 일이 발생하였다.
 
-해결법
+:o:해결법
 * 블루투스를 앱실행시 권한여부를 확인하는 코드와 권한이 없을시 예외처리부분을 작성했고 매번 킬때 마다 허용해주지 않아도 알아서 권한이 들어가도록 설정했다.
 * 컴퓨터의 인터넷 에서 (네트워크 및 인터넷 설정 - 속성(연결된 wifi) - 네트워크 프로필 - 공용) 으로 변경해주니 해결되었다.
 * 통신이 되지 않는 정확한 원인은 알 수 없었으나 통신과 관련된 윈도우즈의 정책과 관련이 있지 않을까 추측된다.
@@ -1033,14 +1040,18 @@ public class ControlCCTVActivity extends AppCompatActivity {
         } else if (view.getId() == R.id.controllighttb_5) {
             if (isChecked) {
                 tb5.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.main_on, 0, 0);
+                command = "i";
             } else {
                 tb5.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.main_off, 0, 0);
+                command = "j";
             }
         } else if (view.getId() == R.id.controllighttb_6) {
             if (isChecked) {
                 tb6.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.main_on, 0, 0);
+                command = "k";
             } else {
                 tb6.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.main_off, 0, 0);
+                command = "l";
             }
         }
         Log.d("UDPClient", "Send: " + command);
@@ -1053,7 +1064,7 @@ public class ControlCCTVActivity extends AppCompatActivity {
             try {
                 DatagramSocket ds = new DatagramSocket();
                 InetAddress ia = InetAddress.getByName(
-                        "192.168.0.39");
+                        "192.168.0.128");
                 DatagramPacket dp=new DatagramPacket(
                         msgText.getBytes(),
                         msgText.getBytes().length,
@@ -1073,11 +1084,17 @@ public class ControlCCTVActivity extends AppCompatActivity {
     }
 }
 ```
+조명의 ON / OFF 또한 정상적으로 서버에 연결되어 문자를 전송하는것을 확인할 수 있었다.
 
 <div align="center">
-<img src="" width="1000" height="350">
+<img src="https://github.com/user-attachments/assets/d9b75e0b-96c5-4a9f-8831-cb76c5aa52ba" width="400" height="800">
+<img src="https://github.com/user-attachments/assets/3b773154-4bb6-406d-8c63-47108812535c" width="400" height="600">
 </div>
 
+시행착오 및 정리
+
+* 이미 서보모터 제어를 위해 서버 연결부분이 해결되어 있으므로 기능 구현 만 진행하면되서 딱히 어려운 부분은 없었다.
+* 서버와 핸드폰은 연결시키는 과정에서 연결이 안되는 이유를 찾아다니는데 4시간을 넘게 쓴거 같다 따로 오류코드가 나오는 것도 아니고 실행이 멈추는 것도 아니다 보니 해결법을 차근차근 하나씩 찾아봐야만 해서 정말 많은 시간을 버렸다 해결법을 찾았지만 결국 그 원인조차도 제대로 알 수가 없어 추측만 할 뿐이다.
 
 ---
 ### 08.28(수) open ai서버 연결
