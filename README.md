@@ -1,7 +1,20 @@
-![Android Studio](https://img.shields.io/badge/android%20studio-346ac1?style=for-the-badge&logo=android%20studio&logoColor=white)<br>
+![header](https://capsule-render.vercel.app/api?type=waving&color=gradient&height=350&section=header&text=CCTV%20AIoT%20project&fontSize=90)
 
-# CCTV AIoT 프로젝트
+<div align="center">
+<img src="https://img.shields.io/badge/android%20studio-346ac1?style=for-the-badge&logo=android%20studio&logoColor=white">
+</div>
 
+## 목차
+
+1. [08-22](#08-22(목))
+2. [08-23](#08-23(금))
+3. [08-26](#08-26(월))
+4. [08-27](#08-27(화))
+5. [08-28](#08-28(수))
+6. [08-29](#08-29(목))
+7. [08-30](#08-30(금))
+
+---
 ### 08-22(목)
 
 바탕화면 밋밋해서 그라데이션 파랑색 강조로 제작
@@ -108,11 +121,11 @@ bg_gradient3,
 bt_cleanline,
 bt_gradient
 
-문제점
+:x:문제점
 
 * 버튼의 경우 신버전으로 넘어오면서 그냥 background에 그라데이션을 적용시 변하지않음
 
-해결법
+:o:해결법
 
 * < Button> </ Button> 대신 <androidx.appcompat.widget.AppCompatButton></> 사용
 
@@ -176,12 +189,12 @@ bt_gradient
 
 시행착오 및 정리
 
-문제점
+ :x:문제점
 
 * 처음에 화면전환 부분을 setContentView(R.layout.레이아웃이름) 으로 작성했는데 로그인과 메인만 왔다갔다 하면 문제가 없지만 ControlCCTVActivity 
 에서 되돌아 나올 때 앱이 정지하는 문제가 발생
 
-해결법
+ :o:해결법
 
 * 문제 분석 결과 데이터를 전달 하는 과정에서 setContentView(R.layout.레이아웃이름) 을 사용해 전환하는 경우 데이터가 소실되어 java.lang.IllegalStateException 문제가 발견됨 Intent를 사용하여 액티비티를 유지하여 데이터 손실을 방지하며 전환간의 상호 데이터 전달이 용이하고 복잡한 UI의 전환 처리에 적합한 형태로 변경
 
@@ -450,7 +463,7 @@ public class MyHomeCCTV extends SurfaceView implements SurfaceHolder.Callback, R
 
 시행착오 및 정리
 
-문제점
+ :x:문제점
 
 * 영상 통신과정에서 상당히 많은 문제들이 있었는데 몇가지 예를 들자면
 1. 영상전환과 영상처리를 하나의 스레드에 넣었더니 과부하로 ANR 오류로 어플이 정지하기도 하고
@@ -459,7 +472,7 @@ public class MyHomeCCTV extends SurfaceView implements SurfaceHolder.Callback, R
 4. 그외에도 방화벽 보안 문제로 영상을 못받거나 url 주소가 특이하게 mjpeg 가 없는경우 비트맵을 읽어오지 못하기도 하고
      대부분이 통신이나 스레드 문제로 참 많은 오류들이 있었다
 
-해결법
+ :o:해결법
 
 1. 스레드를 surfaceView 마다 새로 배정하고 영상처리는 분리하여 과부하를 방지하고
 2. UI를 업데이트 하는 surfaceView는 백그라운드에서 작동하도록 runOnUiThread() 처리를 통해 메모리를 덜 사용하게 하였다
@@ -969,7 +982,7 @@ public class ControlCCTVActivity extends AppCompatActivity {
 * 통신이 되지 않는 정확한 원인은 알 수 없었으나 통신과 관련된 윈도우즈의 정책과 관련이 있지 않을까 추측된다.
 
 # ControlLightActivity.java
-
+조명 관리 부분 UDP 통신 가능하게 조정
 ```java
     // ToggleButton 클릭 이벤트 처리
     public void onToggleClicked(View view) {
@@ -1051,6 +1064,11 @@ public class ControlCCTVActivity extends AppCompatActivity {
     }
 }
 ```
+
+<div align="center">
+<img src="" width="1000" height="350">
+</div>
+
 
 ---
 ### 08-28(수) open ai서버 연결
