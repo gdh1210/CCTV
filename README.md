@@ -1,4 +1,4 @@
-![header](https://capsule-render.vercel.app/api?type=waving&color=gradient&height=350&section=header&text=CCTV%20AIoT%20project&fontSize=90)
+![header](https://capsule-render.vercel.app/api?type=waving&color=gradient&height=350&&section=header&text=CCTV%20AIoT%20project&fontSize=90)
 
 <div align="center">
 <img src="https://img.shields.io/badge/android%20studio-346ac1?style=for-the-badge&logo=android%20studio&logoColor=white">
