@@ -5,24 +5,26 @@
 <div align="center">
 <img src="https://img.shields.io/badge/android%20studio-346ac1?style=for-the-badge&logo=android%20studio&logoColor=white">
 <img src="https://img.shields.io/badge/IntelliJ_IDEA-000000.svg?style=for-the-badge&logo=intellij-idea&logoColor=white">
+<img src="https://img.shields.io/badge/-Arduino-00979D?style=for-the-badge&logo=Arduino&logoColor=white">
 </div>
 
 ## 목차
 
-1. [08-22(목)UI/UX제작 로그인,메인메뉴 구성](#0822목)
+1. [08-22(목)   UI/UX제작 로그인,메인메뉴 구성](#0822목)
    
-2. [08-23 CCTV연결 비트맵 영상처리 구현](#0823금)
+2. [08-23(금)   CCTV연결 비트맵 영상처리 구현](#0823금)
    
-3. [08-26 UI/UX제작 조명,온도 조절장치 구성](#0826월)
+3. [08-26(월)   UI/UX제작 조명,온도 조절장치 구성](#0826월)
    > 번외 UDP 서버구성 https://github.com/gdh1210/Server_Host
 
-4. [08-27 블루투스, UDP 서버 통신 연결 구현](#0827화)
+4. [08-27(화)   블루투스, UDP 서버 통신 연결 구현](#0827화)
+   > 번외 아두이노 코딩 https://github.com/gdh1210/Arduino-subomotor-
    
-5. [08-28](#0828수)
+5. [08-28(수)   ](#0828수)
    
-6. [08-29](#0829목)
+6. [08-29(목)   ](#0829목)
     
-7. [08-30](#0830금)
+7. [08-30(금)   ](#0830금)
 
 ---
 ### 08.22(목)
@@ -976,7 +978,7 @@ public class ControlCCTVActivity extends AppCompatActivity {
     }
 }
 ```
-버튼을 눌러 상하좌우 클릭시 정상적으로 U,D,L,R 이 서버로 전송되는 것을 확인 할 수가 있다.
+상하좌우 버튼을 클릭시 정상적으로 U,D,L,R 이 서버로 전송되는 것을 확인 할 수가 있다.
 
 <div align="center">
 <img src="https://github.com/user-attachments/assets/bc3e9691-c56b-4559-b2c9-f7da13dff0ed" width="400" height="800">
