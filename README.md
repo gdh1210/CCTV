@@ -1,4 +1,6 @@
-![header](https://capsule-render.vercel.app/api?type=waving&color=gradient&height=350&&section=header&text=CCTV%20AIoT%20project&fontSize=90)
+<div align="center">
+<img src="https://capsule-render.vercel.app/api?type=waving&color=gradient&height=350&&section=header&text=CCTV%20AIoT%20project&fontSize=90">
+</div>
 
 <div align="center">
 <img src="https://img.shields.io/badge/android%20studio-346ac1?style=for-the-badge&logo=android%20studio&logoColor=white">
@@ -6,13 +8,13 @@
 
 ## 목차
 
-1. [08-22](#08-22(목))
-2. [08-23](#08-23(금))
-3. [08-26](#08-26(월))
-4. [08-27](#08-27(화))
-5. [08-28](#08-28(수))
-6. [08-29](#08-29(목))
-7. [08-30](#08-30(금))
+1. [08-22 UI/UX제작](08-22(목))
+2. [08-23 CCTV연결](08-23(금))
+3. [08-26 ](08-26(월))
+4. [08-27](08-27(화))
+5. [08-28](08-28(수))
+6. [08-29](08-29(목))
+7. [08-30](08-30(금))
 
 ---
 ### 08-22(목)
