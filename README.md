@@ -1102,7 +1102,20 @@ public class ControlCCTVActivity extends AppCompatActivity {
 ### 08.28(수) open ai서버 연결
 
 
+
 ---
 ### 08.29(목)  음성 인식기능
+
+
+
+
 ---
 ### 08.30(금)  음성통화기능
+
+
+
+---
+참조
+서보모터 조립 참조 영상 - https://www.youtube.com/watch?v=cuxyNSaGRo
+
+
