@@ -24,12 +24,13 @@ AI 스마트 CCTV 시스템 프로젝트(8월22일 ~ 8월30일)
 2. [08-23(금)   CCTV연결 비트맵 영상처리 구현](#0823금)
    
 3. [08-26(월)   UI/UX제작 조명,온도 조절장치 구성](#0826월)
-   > 번외 UDP 서버구성 https://github.com/gdh1210/Server_Host
+   > 번외 UDP 자바 서버구성 https://github.com/gdh1210/Java_Server_Host
 
 4. [08-27(화)   블루투스, UDP 서버 통신 연결 구현](#0827화)
    > 번외 아두이노 코딩 https://github.com/gdh1210/Arduino-subomotor-
    
-5. [08-28(수)   openAI 서버 구현 ](#0828수)
+5. [08-28(수)   openAI 서버 구현 및 통신 연결](#0828수)
+   > 번외 UDP 파이썬 서버구성 https://github.com/gdh1210/Python_Server_Host
    
 6. [08-29(목)   음성 인식 기능 구성](#0829목)
     
@@ -1108,7 +1109,7 @@ public class ControlCCTVActivity extends AppCompatActivity {
 * 서버와 핸드폰은 연결시키는 과정에서 연결이 안되는 이유를 찾아다니는데 4시간을 넘게 쓴거 같다 따로 오류코드가 나오는 것도 아니고 실행이 멈추는 것도 아니다 보니 해결법을 차근차근 하나씩 찾아봐야만 해서 정말 많은 시간을 버렸다 해결법을 찾았지만 결국 그 원인조차도 제대로 알 수가 없어 추측만 할 뿐이다.
 
 ---
-### 08.28(수) open ai서버 연결
+### 08.28(수)
 
 
 
@@ -1181,7 +1182,7 @@ public class ControlCCTVActivity extends AppCompatActivity {
 </div>
 
 ---
-### 08.30(금)  음성통화기능
+### 08.30(금)
 
 # voice.java
 
