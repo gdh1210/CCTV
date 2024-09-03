@@ -1184,8 +1184,6 @@ public class ControlCCTVActivity extends AppCompatActivity {
 ---
 ### 08.30(금)
 
-# voice.java
-
 음성 통화 기능을 만들기 위해 외부프로그램을 활용하여 서버와 임의의 사용자를 구축을 먼저 진행 하도록 하겠다.<br>
 사용된 외부프로그램은 참조 탭의 [음성통화 호스트](#음성통화-호스트) 와 [음성통화 클라이언트](#음성통화-클라이언트) 에서 다운로드 하였으며 링크를 걸어두었다.<br>
 
@@ -1202,7 +1200,10 @@ public class ControlCCTVActivity extends AppCompatActivity {
 </div>
 
 임의의 클라이언트를 101 자리에 넣는데 성공한 것을 확인 할 수 있다.<br>
-이제 서버환경이 준비되었으니 안드로이드에서 통신이 가능하도록 이식을 해야한다.<br>
+이제 서버환경이 준비되었으니 안드로이드에서 통신이 가능하도록 이식을 해야한다.<
+
+# voice.java
+
 오픈소스를 활용하여 필요한 부분만 짜집기 하여 코드를 가져와 사용하였다.<br>
 외부라이브러리 AJVoIP.jar 를 참조해야 하며 다운로드 링크는 문서 하단의 참조에 달아놓았다.
 
@@ -1506,14 +1507,13 @@ public class voice extends Activity
 
 <div align="center">
 <img src="https://github.com/user-attachments/assets/af368d4a-1bcb-4797-9097-7e5f8ed5dac8" width="400" height="800">
-<img src="https://github.com/user-attachments/assets/955dca97-f7d7-42de-b64b-5f118acc36e1" width="500" height="800">
+<img src="https://github.com/user-attachments/assets/955dca97-f7d7-42de-b64b-5f118acc36e1" width="400" height="900">
 </div>
 
 안드로이드에서 주소를 101로 변경하고 101 클라이언트에 전화를 연결하면 수신여부를 결정하는 창이 뜬다 연결이 정상적으로 진행된다는 것을 확인 가능하다.
 
 <div align="center">
-<img src="https://github.com/user-attachments/assets/e83c8ffa-37b8-4b73-b715-93139bf335e8" width="400" height="800">
-<img src="" width="600" height="400">
+<img src="https://github.com/user-attachments/assets/e83c8ffa-37b8-4b73-b715-93139bf335e8" width="400" height="700">
 </div>
 
 반대로 임의의 클라이언트 101 에서 안드로이드 102로 연결하는 것도 정상적으로 진행이 가능하다.
