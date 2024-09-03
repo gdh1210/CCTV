@@ -1495,24 +1495,28 @@ public class voice extends Activity
     }
 }
 ```
-코드를 이식하고 정상적으로 동작하는지 테스트를 진행해 보았다.
-
+코드를 이식하고 정상적으로 동작하는지 Start 버튼을 눌러 테스트를 진행해 보았다.
 
 <div align="center">
 <img src="https://github.com/user-attachments/assets/ae341b23-a412-4910-a05b-a714ee0a8ed1" width="400" height="800">
 <img src="https://github.com/user-attachments/assets/7562ae03-b32f-4b00-bd74-1cf4721d724c" width="600" height="400">
 </div>
+
 앱 동작후 클라이언트 102 에 연결되는 것을 확인 할 수 있었다.
 
 <div align="center">
-<img src="" width="400" height="800">
+<img src="https://github.com/user-attachments/assets/af368d4a-1bcb-4797-9097-7e5f8ed5dac8" width="400" height="800">
+<img src="https://github.com/user-attachments/assets/955dca97-f7d7-42de-b64b-5f118acc36e1" width="500" height="800">
 </div>
 
-![image](https://github.com/user-attachments/assets/af368d4a-1bcb-4797-9097-7e5f8ed5dac8)
+안드로이드에서 주소를 101로 변경하고 101 클라이언트에 전화를 연결하면 수신여부를 결정하는 창이 뜬다 연결이 정상적으로 진행된다는 것을 확인 가능하다.
 
-![image](https://github.com/user-attachments/assets/955dca97-f7d7-42de-b64b-5f118acc36e1)
-![image](https://github.com/user-attachments/assets/e83c8ffa-37b8-4b73-b715-93139bf335e8)
+<div align="center">
+<img src="https://github.com/user-attachments/assets/e83c8ffa-37b8-4b73-b715-93139bf335e8" width="400" height="800">
+<img src="" width="600" height="400">
+</div>
 
+반대로 임의의 클라이언트 101 에서 안드로이드 102로 연결하는 것도 정상적으로 진행이 가능하다.
 
 ---
 # 마치며
