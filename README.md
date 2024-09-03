@@ -1176,7 +1176,7 @@ public class ControlCCTVActivity extends AppCompatActivity {
 
 <div align="center">
 <img src="https://github.com/user-attachments/assets/0fe666ad-49e5-41c1-8c61-321c7ad8f3ed" width="400" height="800">
-<img src="https://github.com/user-attachments/assets/3b773154-4bb6-406d-8c63-47108812535c" width="400" height="600">
+<img src="" width="400" height="600">
 </div>
 
 ---
@@ -1184,7 +1184,8 @@ public class ControlCCTVActivity extends AppCompatActivity {
 
 # voice.java
 
-오픈소스를 활용하여 필요한 부분만 짜집기 하여 코드를 가져와 사용하였다
+오픈소스를 활용하여 필요한 부분만 짜집기 하여 코드를 가져와 사용하였다.<br>
+외부라이브러리 AJVoIP.jar 를 참조해야 하며 다운로드 링크는 문서 하단의 참조에 달아놓았다.
 
 ```java
 public class voice extends Activity
@@ -1481,7 +1482,7 @@ public class voice extends Activity
 사실 이 프로젝트는 완성이라기 보다는 미완성에 가깝다 기능적인 부분에 집중하느라 세세한 부분(로그인의 화이트리스트 관리, 환경설정) 에서 구현되지 않은 부분들이 많으며 <br>
 컴퓨터 환경은 이리저리 바꿔가면서 많이 테스트 해봤는데 핸드폰 환경은 워낙 다양하다 보니 다른 핸드폰에 적용하면 UI 부분이 많이 틀어지는 것을 확인했지만 수정하지는 못했다. <br>
 
-참조
+참조 <br>
 서보모터 조립 참조 영상 - https://www.youtube.com/watch?v=cuxyNSaGRo <br>
 자바 UDP 서버 생성법 - https://ddoriya.tistory.com/entry/JAVA-UDP-server-Client-%EB%A7%8C%EB%93%A4%EA%B8%B0 <br>
 파이썬 UDP 서버 생성법 - https://w-world.tistory.com/217 <br>
