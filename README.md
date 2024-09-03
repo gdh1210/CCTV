@@ -1580,6 +1580,9 @@ public class voice extends Activity
 
 <br>
 참조 <br>
+CCTV 앱 구성 참조1 - http://gigatongsin.com/contents/lg/cctv/home_cctv_app_remote.php
+CCTV 앱 구성 참조2 - https://kr.freepik.com/premium-photo/home-security-concept-smartphone-with-smart-home-app-surveillance-cctv-camera-desk_27388830.htm
+CCTV 앱 구성 참조3 - https://inditor.co.kr/bbs/board.php?bo_table=app&wr_id=22
 서보모터 조립 참조 영상 - https://www.youtube.com/watch?v=cuxyNSaGRo <br>
 자바 UDP 서버 생성법 - https://ddoriya.tistory.com/entry/JAVA-UDP-server-Client-%EB%A7%8C%EB%93%A4%EA%B8%B0 <br>
 파이썬 UDP 서버 생성법 - https://w-world.tistory.com/217 <br>
