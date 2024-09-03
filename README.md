@@ -1192,13 +1192,17 @@ public class ControlCCTVActivity extends AppCompatActivity {
 
 <div align="center">
 <img src="https://github.com/user-attachments/assets/65338213-fe66-47da-8066-fbbc0519d0a0" width="800" height="400">
-<img src="https://github.com/user-attachments/assets/fbbe5b34-1fcf-47d9-912b-e3de4ca4f56b" width="400" height="500">
-<img src="https://github.com/user-attachments/assets/2928878c-9d45-47bc-8d96-27186334ef63" width="500" height="400">
 </div>
 
+서버 실행시 정상적으로 실행이 되는 것을 확인 할 수 있다.
 
+<div align="center">
+<img src="https://github.com/user-attachments/assets/fbbe5b34-1fcf-47d9-912b-e3de4ca4f56b" width="400" height="600">
+<img src="https://github.com/user-attachments/assets/2928878c-9d45-47bc-8d96-27186334ef63" width="600" height="400">
+</div>
 
-
+임의의 클라이언트를 101 자리에 넣는데 성공한 것을 확인 할 수 있다.<br>
+이제 서버환경이 준비되었으니 안드로이드에서 통신이 가능하도록 이식을 해야한다.<br>
 오픈소스를 활용하여 필요한 부분만 짜집기 하여 코드를 가져와 사용하였다.<br>
 외부라이브러리 AJVoIP.jar 를 참조해야 하며 다운로드 링크는 문서 하단의 참조에 달아놓았다.
 
@@ -1491,6 +1495,24 @@ public class voice extends Activity
     }
 }
 ```
+코드를 이식하고 정상적으로 동작하는지 테스트를 진행해 보았다.
+
+
+<div align="center">
+<img src="https://github.com/user-attachments/assets/ae341b23-a412-4910-a05b-a714ee0a8ed1" width="400" height="800">
+<img src="https://github.com/user-attachments/assets/7562ae03-b32f-4b00-bd74-1cf4721d724c" width="600" height="400">
+</div>
+앱 동작후 클라이언트 102 에 연결되는 것을 확인 할 수 있었다.
+
+<div align="center">
+<img src="" width="400" height="800">
+</div>
+
+![image](https://github.com/user-attachments/assets/af368d4a-1bcb-4797-9097-7e5f8ed5dac8)
+
+![image](https://github.com/user-attachments/assets/955dca97-f7d7-42de-b64b-5f118acc36e1)
+![image](https://github.com/user-attachments/assets/e83c8ffa-37b8-4b73-b715-93139bf335e8)
+
 
 ---
 # 마치며
