@@ -149,10 +149,9 @@ public class ControlCCTVActivity extends AppCompatActivity {
                 btCommand = "R";
                 break;
             default:
-                showToast("알 수 없는 명령: " + command);
-                return;
+                btCommand = command; // 선택지에 없는 입력은 그대로 사용
+                break;
         }
-        sendBluetoothCommand(btCommand);
         sendUdpMessage(btCommand);
     }
 
@@ -242,8 +241,10 @@ public class ControlCCTVActivity extends AppCompatActivity {
     private void sendUdpMessage(String msgText) {
         new Thread(() -> {
             try (DatagramSocket ds = new DatagramSocket()) {
-                InetAddress ia = InetAddress.getByName("192.168.0.128");
-                DatagramPacket dp = new DatagramPacket(msgText.getBytes(), msgText.length(), ia, 7777);
+                InetAddress ia = InetAddress.getByName("192.168.0.34");
+                // 명시적으로 UTF-8로 인코딩
+                byte[] sendData = msgText.getBytes("UTF-8");
+                DatagramPacket dp = new DatagramPacket(sendData, sendData.length, ia, 9999);
                 ds.send(dp);
             } catch (Exception e) {
                 Log.e("UDPClient", "Exception: " + e.getMessage(), e);
