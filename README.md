@@ -1174,12 +1174,16 @@ public class ControlCCTVActivity extends AppCompatActivity {
         }
     }
 ```
-시행착오 및 정리
+핸드폰 내부에 있는 기능인 Google Speech 기능을 가져와 문자를 인식하고 앱에 전달 하는지 테스트 해 보았다.
 
 <div align="center">
-<img src="https://github.com/user-attachments/assets/0fe666ad-49e5-41c1-8c61-321c7ad8f3ed" width="400" height="800">
-<img src="" width="400" height="600">
+<img src="https://github.com/user-attachments/assets/47a1e9ad-569c-4698-85e7-f9cf290a6e67" width="400" height="800">
+<img src="https://github.com/user-attachments/assets/cc3cb989-eb01-4b64-a032-5896cd3eb282" width="400" height="600">
 </div>
+
+문자 인식 속도도 빠르고 정확도도 높은 것을 확인 할 수 있었다.
+
+시행착오 및 정리
 
 ---
 ### 08.30(금)
