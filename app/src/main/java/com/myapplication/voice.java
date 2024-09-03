@@ -57,9 +57,9 @@ public class voice extends Activity
         StringBuilder parameters = new StringBuilder();
 
         parameters.append("loglevel=5\r\n");
-        parameters.append("serveraddress=192.168.0.108\r\n");
-        parameters.append("username=103\r\n");
-        parameters.append("password=103\r\n");
+        parameters.append("serveraddress=192.168.0.34\r\n");
+        parameters.append("username=102\r\n");
+        parameters.append("password=102\r\n");
 
         mParams.setText(parameters.toString());
         mDestNumber.setText(""); //default call-to number for our test (testivr3 is a music IVR access number on our test server at voip.mizu-voip.com)

@@ -79,14 +79,18 @@ public class ControlLightActivity extends AppCompatActivity {
         } else if (view.getId() == R.id.controllighttb_5) {
             if (isChecked) {
                 tb5.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.main_on, 0, 0);
+                command = "i";
             } else {
                 tb5.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.main_off, 0, 0);
+                command = "j";
             }
         } else if (view.getId() == R.id.controllighttb_6) {
             if (isChecked) {
                 tb6.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.main_on, 0, 0);
+                command = "k";
             } else {
                 tb6.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.main_off, 0, 0);
+                command = "l";
             }
         }
         Log.d("UDPClient", "Send: " + command);
