@@ -1106,15 +1106,616 @@ public class ControlCCTVActivity extends AppCompatActivity {
 ---
 ### 08.29(목)  음성 인식기능
 
+package com.myapplication;
+
+import android.Manifest;
+import android.annotation.SuppressLint;
+import android.bluetooth.BluetoothAdapter;
+import android.bluetooth.BluetoothDevice;
+import android.bluetooth.BluetoothSocket;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.os.Bundle;
+import android.speech.RecognizerIntent;
+import android.util.Log;
+import android.view.View;
+import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+
+import java.io.IOException;
+import java.io.OutputStream;
+import java.net.DatagramPacket;
+import java.net.DatagramSocket;
+import java.net.InetAddress;
+import java.util.ArrayList;
+import java.util.Locale;
+import java.util.UUID;
+
+public class ControlCCTVActivity extends AppCompatActivity {
+    private MyHomeCCTV surfaceView1, surfaceView2, surfaceView3;
+    private BluetoothAdapter bluetoothAdapter;
+    private BluetoothSocket bluetoothSocket;
+    private OutputStream outputStream;
+
+    private static final int REQUEST_ENABLE_BT = 2;
+    private static final UUID MY_UUID = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB");
+    private static final String DEVICE_ADDRESS = "98:DA:60:07:6C:91";
+    private static final int REQUEST_BLUETOOTH_PERMISSION = 1;
+    private static final int VOICE_REQUEST_CODE = 101;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.controlcctv);
+
+        initializeSurfaceViews();
+        showSurfaceView(1);
+
+        checkAndRequestBluetoothPermission();
+    }
+
+    private void initializeSurfaceViews() {
+        surfaceView1 = findViewById(R.id.cctvView1);
+        surfaceView2 = findViewById(R.id.cctvView2);
+        surfaceView3 = findViewById(R.id.cctvView3);
+
+        surfaceView1.setUrl("http://63.142.183.154:6103/mjpg/video.mjpg");
+        surfaceView2.setUrl("http://63.142.183.154:6103/mjpg/video.mjpg");
+        surfaceView3.setUrl("http://79.141.146.83/axis-cgi/mjpg/video.cgi");
+    }
+
+    private void checkAndRequestBluetoothPermission() {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.BLUETOOTH_CONNECT) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.BLUETOOTH_CONNECT}, REQUEST_BLUETOOTH_PERMISSION);
+        } else {
+            initializeBluetooth();
+        }
+    }
+
+    @SuppressLint("MissingPermission")
+    private void initializeBluetooth() {
+        bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+
+        if (bluetoothAdapter == null) {
+            showToast("Bluetooth를 지원하지 않는 기기입니다.");
+            return;
+        }
+
+        if (!bluetoothAdapter.isEnabled()) {
+            Intent enableBtIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
+            startActivityForResult(enableBtIntent, REQUEST_ENABLE_BT);
+        } else {
+            connectToBluetoothDevice();
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == REQUEST_BLUETOOTH_PERMISSION) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                initializeBluetooth();
+            } else {
+                showToast("Bluetooth 연결을 위해 권한이 필요합니다.");
+            }
+        }
+    }
+
+    @SuppressLint("MissingPermission")
+    private void connectToBluetoothDevice() {
+        new Thread(() -> {
+            try {
+                BluetoothDevice device = bluetoothAdapter.getRemoteDevice(DEVICE_ADDRESS);
+                bluetoothSocket = device.createRfcommSocketToServiceRecord(MY_UUID);
+                bluetoothSocket.connect();
+                outputStream = bluetoothSocket.getOutputStream();
+                runOnUiThread(() -> showToast("Bluetooth 연결 성공"));
+            } catch (IOException | SecurityException e) {
+                Log.e("Bluetooth", "Bluetooth 연결 실패", e);
+                runOnUiThread(() -> showToast("Bluetooth 연결 실패"));
+            }
+        }).start();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_ENABLE_BT && resultCode == RESULT_OK) {
+            connectToBluetoothDevice();
+        } else if (requestCode == VOICE_REQUEST_CODE && resultCode == RESULT_OK) {
+            processVoiceCommand(data);
+        }
+    }
+
+    private void processVoiceCommand(Intent data) {
+        ArrayList<String> matches = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
+        if (matches != null && !matches.isEmpty()) {
+            handleVoiceCommand(matches.get(0));
+        } else {
+            showToast("음성 인식 결과가 없습니다.");
+        }
+    }
+
+    private void handleVoiceCommand(String command) {
+        String btCommand;
+        switch (command) {
+            case "위로":
+                btCommand = "U";
+                break;
+            case "아래로":
+                btCommand = "D";
+                break;
+            case "왼쪽":
+                btCommand = "L";
+                break;
+            case "오른쪽":
+                btCommand = "R";
+                break;
+            default:
+                showToast("알 수 없는 명령: " + command);
+                return;
+        }
+        sendBluetoothCommand(btCommand);
+        sendUdpMessage(btCommand);
+    }
+
+    private void sendBluetoothCommand(String command) {
+        if (outputStream != null && bluetoothSocket != null && bluetoothSocket.isConnected()) {
+            new Thread(() -> {
+                try {
+                    outputStream.write(command.getBytes());
+                    runOnUiThread(() -> showToast("명령 전송 성공: " + command));
+                } catch (IOException e) {
+                    Log.e("Bluetooth", "명령 전송 실패: " + command, e);
+                    runOnUiThread(() -> showToast("명령 전송 실패"));
+                }
+            }).start();
+        } else {
+            Log.e("Bluetooth", "Bluetooth가 연결되지 않았습니다.");
+        }
+    }
+
+    public void showSurfaceView(int viewNumber) {
+        runOnUiThread(() -> {
+            surfaceView1.setVisibility(View.GONE);
+            surfaceView2.setVisibility(View.GONE);
+            surfaceView3.setVisibility(View.GONE);
+
+            switch (viewNumber) {
+                case 1:
+                    surfaceView1.setVisibility(View.VISIBLE);
+                    break;
+                case 2:
+                    surfaceView2.setVisibility(View.VISIBLE);
+                    break;
+                case 3:
+                    surfaceView3.setVisibility(View.VISIBLE);
+                    break;
+            }
+        });
+
+        clearSurfaceViewFrames();
+    }
+
+    private void clearSurfaceViewFrames() {
+        if (surfaceView1 != null) {
+            surfaceView1.stopThread();
+            surfaceView1.clearCurrentFrame();
+        }
+        if (surfaceView2 != null) {
+            surfaceView2.stopThread();
+            surfaceView2.clearCurrentFrame();
+        }
+        if (surfaceView3 != null) {
+            surfaceView3.stopThread();
+            surfaceView3.clearCurrentFrame();
+        }
+    }
+
+    public void showCCTVSelection(View view) {
+        final String[] cctvOptions = {"CAM1", "CAM2", "CAM3"};
+
+        new AlertDialog.Builder(this)
+                .setTitle("CCTV 선택")
+                .setItems(cctvOptions, (dialog, which) -> {
+                    showSurfaceView(which + 1);
+                    showToast(cctvOptions[which] + "로 전환합니다.");
+                })
+                .show();
+    }
+
+    public void controlCCTVMovement(View view) {
+        String command = "";
+        int id = view.getId();
+
+        if (id == R.id.UPbt) {
+            command = "U";
+        } else if (id == R.id.DOWNbt) {
+            command = "D";
+        } else if (id == R.id.LEFTbt) {
+            command = "L";
+        } else if (id == R.id.RIGHTbt) {
+            command = "R";
+        }
+
+        sendBluetoothCommand(command);
+        sendUdpMessage(command);
+    }
+
+    private void sendUdpMessage(String msgText) {
+        new Thread(() -> {
+            try (DatagramSocket ds = new DatagramSocket()) {
+                InetAddress ia = InetAddress.getByName("192.168.0.128");
+                DatagramPacket dp = new DatagramPacket(msgText.getBytes(), msgText.length(), ia, 7777);
+                ds.send(dp);
+            } catch (Exception e) {
+                Log.e("UDPClient", "Exception: " + e.getMessage(), e);
+            }
+        }).start();
+    }
+
+    public void detectIntrusion(View view) {
+        showToast("침입 감지 기능을 활성화합니다.");
+    }
+
+    public void communicate(View view) {
+        Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
+        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
+        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.KOREA);
+        intent.putExtra(RecognizerIntent.EXTRA_PROMPT, "명령어를 말하세요");
+        try {
+            startActivityForResult(intent, VOICE_REQUEST_CODE);
+        } catch (Exception e) {
+            showToast("음성 인식에 실패했습니다.");
+        }
+    }
+
+    public void back_to_main(View view) {
+        finish();
+        startActivity(new Intent(ControlCCTVActivity.this, MainActivity.class));
+    }
+
+    private void showToast(String message) {
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        clearSurfaceViewFrames();
+
+        try {
+            if (outputStream != null) outputStream.close();
+            if (bluetoothSocket != null) bluetoothSocket.close();
+        } catch (IOException e) {
+            Log.e("Bluetooth", "Error closing resources", e);
+        }
+    }
+}
+
 
 
 
 ---
 ### 08.30(금)  음성통화기능
 
+package com.myapplication;
+
+import android.Manifest;
+import android.app.Activity;
+import android.content.Context;
+import android.content.pm.PackageManager;
+import android.os.Build;
+import android.os.Bundle;
+import android.text.method.ScrollingMovementMethod;
+import android.util.Log;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
+import java.util.Calendar;
+import java.util.TimeZone;
+import androidx.core.app.ActivityCompat;
+import com.mizuvoip.jvoip.*; //import the Mizu SIP SDK! You must copy the AJVoIP.aar into the \AJVoIPTest\AJVoIP folder!
+
+
+public class voice extends Activity
+{
+    public static String LOGTAG = "AJVoIP";
+    EditText mParams = null;
+    EditText mDestNumber = null;
+    Button mBtnStart = null;
+    Button mBtnCall = null;
+    Button mBtnHangup = null;
+    Button mBtnTest = null;
+    TextView mStatus = null;
+    TextView mNotifications = null;
+    SipStack mysipclient = null;
+    Context ctx = null;
+    public static voice instance = null;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState)
+    {
+        //Message messageToMainThread = new Message();
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.voice);
+        ctx = this;
+        instance = this;
+
+        mParams = (EditText) findViewById(R.id.parameters_view);
+        mDestNumber = (EditText) findViewById(R.id.dest_number);
+        mBtnStart = (Button) findViewById(R.id.btn_start);
+        mBtnCall = (Button) findViewById(R.id.btn_call);
+        mBtnHangup = (Button) findViewById(R.id.btn_hangup);
+        mBtnTest = (Button) findViewById(R.id.btn_test);
+        mStatus = (TextView) findViewById(R.id.status);
+        mNotifications = (TextView) findViewById(R.id.notifications);
+        mNotifications.setMovementMethod(new ScrollingMovementMethod());
+
+        DisplayLogs("oncreate");
+
+        StringBuilder parameters = new StringBuilder();
+
+        parameters.append("loglevel=5\r\n");
+        parameters.append("serveraddress=192.168.0.108\r\n");
+        parameters.append("username=103\r\n");
+        parameters.append("password=103\r\n");
+
+        mParams.setText(parameters.toString());
+        mDestNumber.setText(""); //default call-to number for our test (testivr3 is a music IVR access number on our test server at voip.mizu-voip.com)
+
+        DisplayStatus("Ready.");
+
+        mBtnStart.setOnClickListener(new View.OnClickListener()
+        {
+            public void onClick(View v)  //Start button click
+            {
+                DisplayLogs("Start on click");
+
+                try{
+                    // start SipStack if it's not already running
+                    if (mysipclient == null) //check if AJVoIP instance already exists
+                    {
+                        DisplayLogs("Starting SIPStack");
+
+                        //initialize the SIP engine
+                        mysipclient = new SipStack();
+                        mysipclient.Init(ctx);
+
+                        //subscribe to notification events
+                        MyNotificationListener listener = new MyNotificationListener();
+                        mysipclient.SetNotificationListener(listener);
+
+                        SetParameters(); //pass the configuration (parameters can be changed also later at run-time)
+
+                        DisplayLogs("SIPStack Start");
+
+                        //start the SIP engine
+                        mysipclient.Start();
+                        //mysipclient.Register();
+                        instance.CheckPermissions();
+
+                        DisplayLogs("SIPStack Started");
+                    }
+                    else
+                    {
+                        DisplayLogs("SIPStack already started");
+                    }
+                }catch (Exception e) { DisplayLogs("ERROR, StartSIPStack"); }
+            }
+        });
+
+        mBtnCall.setOnClickListener(new View.OnClickListener()
+        {
+            public void onClick(View v) //Call button click
+            {
+                DisplayLogs("Call on click");
+
+                String number = mDestNumber.getText().toString().trim();
+                if (number == null || number.length() < 1)
+                {
+                    DisplayStatus("ERROR, Invalid destination number");
+                    return;
+                }
+
+                if (mysipclient == null) {
+                    DisplayStatus("ERROR, cannot initiate call because SipStack is not started");
+                    return;
+                }
+
+                instance.CheckPermissions();
+
+                if (mysipclient.Call(-1, number))
+                {
+                }
+            }
+        });
+
+        mBtnHangup.setOnClickListener(new View.OnClickListener()
+        {
+            public void onClick(View v) //Hangup button click
+            {
+                DisplayLogs("Hangup on click");
+
+                if (mysipclient == null)
+                    DisplayStatus("ERROR, cannot hangup because SipStack is not started");
+                else
+                    mysipclient.Hangup();
+            }
+        });
+
+        mBtnTest.setOnClickListener(new View.OnClickListener()
+        {
+            public void onClick(View v) //Test button click
+            {
+                //any test code here
+                DisplayLogs("Toogle loudspeaker");
+                if (mysipclient == null)
+                    DisplayStatus("ERROR, SipStack not started");
+                else
+                    mysipclient.SetSpeakerMode(!mysipclient.IsLoudspeaker());
+            }
+        });
+    }
+
+    public void SetParameters()
+    {
+        String params = mParams.getText().toString();
+        if (params == null || mysipclient == null) return;
+        params = params.trim();
+
+        DisplayLogs("SetParameters: " + params);
+
+        mysipclient.SetParameters(params);
+    }
+
+    void CheckPermissions()
+    {
+        if (Build.VERSION.SDK_INT >= 23 && ctx.checkSelfPermission(Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED)
+        {
+            //we need RECORD_AUDIO permission before to make/receive any call
+            DisplayStatus("Microphone permission required");
+            ActivityCompat.requestPermissions(voice.this, new String[]{Manifest.permission.RECORD_AUDIO}, 555);
+        }
+    }
+
+    class MyNotificationListener extends SIPNotificationListener
+    {
+        //here are some examples about how to handle the notifications:
+        @Override
+        public void onAll(SIPNotification e) {
+            //we receive all notifications (also) here. we just print them from here
+            DisplayLogs(e.getNotificationTypeText()+" notification received: " + e.toString());
+        }
+
+        //handle connection (REGISTER) state
+        @Override
+        public void onRegister( SIPNotification.Register e)
+        {
+            //check if/when we are registered to the SIP server
+            if(!e.getIsMain()) return; //we ignore secondary accounts here
+
+            switch(e.getStatus())
+            {
+                case SIPNotification.Register.STATUS_INPROGRESS: DisplayStatus("Registering..."); break;
+                case SIPNotification.Register.STATUS_SUCCESS: DisplayStatus("Registered successfully."); break;
+                case SIPNotification.Register.STATUS_FAILED: DisplayStatus("Register failed because "+e.getReason()); break;
+                case SIPNotification.Register.STATUS_UNREGISTERED: DisplayStatus("Unregistered."); break;
+            }
+        }
+
+        //an example for STATUS handling
+        @Override
+        public void onStatus( SIPNotification.Status e)
+        {
+            if(e.getLine() == -1) return; //we are ignoring the global state here (but you might check only the global state instead or look for the particular lines separately if you must handle multiple simultaneous calls)
+
+            //log call state
+            if(e.getStatus() >= SIPNotification.Status.STATUS_CALL_SETUP && e.getStatus() <= SIPNotification.Status.STATUS_CALL_FINISHED)
+            {
+                DisplayStatus("Call state is: "+ e.getStatusText());
+            }
+
+            //catch outgoing call connect
+            if(e.getStatus() == SIPNotification.Status.STATUS_CALL_CONNECT && e.getEndpointType() == SIPNotification.Status.DIRECTION_OUT)
+            {
+                DisplayStatus("Outgoing call connected to "+ e.getPeer());
+            }
+            //catch incoming calls
+            else if(e.getStatus() == SIPNotification.Status.STATUS_CALL_RINGING && e.getEndpointType() == SIPNotification.Status.DIRECTION_IN)
+            {
+                DisplayStatus("Incoming call from "+ e.getPeerDisplayname());
+
+                //auto accepting the incoming call (instead of auto accept, you might present an Accept/Reject button for the user which will call Accept / Reject)
+                mysipclient.Accept(e.getLine());
+            }
+            //catch incoming call connect
+            else if(e.getStatus() == SIPNotification.Status.STATUS_CALL_CONNECT && e.getEndpointType() == SIPNotification.Status.DIRECTION_IN)
+            {
+                DisplayStatus("Incoming call connected");
+            }
+
+        }
+
+        //print important events (EVENT)
+        @Override
+        public void onEvent( SIPNotification.Event e)
+        {
+            DisplayStatus("Important event: "+e.getText());
+        }
+
+        //IM handling
+        @Override
+        public void onChat( SIPNotification.Chat e)
+        {
+            DisplayStatus("Message from "+e.getPeer()+": "+e.getMsg());
+
+            //auto answer
+            mysipclient.SendChat(-1, e.getPeer(),"Received");
+
+        }
+    }
+
+    public void DisplayStatus(String stat)
+    {
+        try{
+            if (stat == null) return;
+            if (mStatus != null) {
+                if ( stat.length() > 70)
+                    mStatus.setText(stat.substring(0,60)+"...");
+                else
+                    mStatus.setText(stat);
+            }
+            DisplayLogs(stat);
+        }catch(Throwable e){  Log.e(LOGTAG, "ERROR, DisplayStatus", e); }
+    }
+
+    public void DisplayLogs(String logmsg)
+    {
+        try{
+            if (logmsg == null || logmsg.length() < 1) return;
+
+            if ( logmsg.length() > 2500) logmsg = logmsg.substring(0,300)+"...";
+            logmsg = "["+ new java.text.SimpleDateFormat("HH:mm:ss:SSS").format(Calendar.getInstance(TimeZone.getTimeZone("GMT")).getTime()) +  "] " + logmsg + "\r\n";
+
+            Log.v(LOGTAG, logmsg);
+            if (mNotifications != null) mNotifications.append(logmsg);
+        }catch(Throwable e){  Log.e(LOGTAG, "ERROR, DisplayLogs", e); }
+    }
+
+    @Override
+    public void onResume()
+    {
+        super.onResume();
+    }
+
+    @Override
+    protected void onDestroy()
+    {
+        try{
+            super.onDestroy();
+            DisplayLogs("ondestroy");
+            if (mysipclient != null)
+            {
+                DisplayLogs("Stop SipStack");
+                mysipclient.Stop(true);
+            }
+
+            mysipclient = null;
+        }catch(Throwable e){  Log.e(LOGTAG, "ERROR, on destroy", e); }
+    }
+}
 
 
 ---
+# 마치며
+사실 이 프로젝트는 완성이라기 보다는  
 참조
 서보모터 조립 참조 영상 - https://www.youtube.com/watch?v=cuxyNSaGRo
 
