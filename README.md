@@ -1192,8 +1192,11 @@ public class ControlCCTVActivity extends AppCompatActivity {
 
 <div align="center">
 <img src="https://github.com/user-attachments/assets/65338213-fe66-47da-8066-fbbc0519d0a0" width="800" height="400">
-<img src="" width="400" height="600">
+<img src="https://github.com/user-attachments/assets/fbbe5b34-1fcf-47d9-912b-e3de4ca4f56b" width="400" height="500">
+<img src="https://github.com/user-attachments/assets/2928878c-9d45-47bc-8d96-27186334ef63" width="500" height="400">
 </div>
+
+
 
 
 오픈소스를 활용하여 필요한 부분만 짜집기 하여 코드를 가져와 사용하였다.<br>
@@ -1506,7 +1509,7 @@ jSerialComm JAR 컴파일하여 사용하기 - https://www.xanthium.in/cross-pla
 음성통화 라이브러리 설명 - https://www.mizu-voip.com/Software/SIPSDK/AndroidSIPSDK.aspx <br>
 음성통화 VOIP 서비스 구현 - https://blog.naver.com/romanst/220635666592 <br>
 음성통화 호스트 - https://www.myvoipapp.com/ <br>
-음성통화 클라이언트 활용2 - https://www.microsip.org/ <br>
+음성통화 클라이언트 - https://www.microsip.org/ <br>
 
 
 
