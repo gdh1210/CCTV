@@ -6,6 +6,7 @@
 <img src="https://img.shields.io/badge/android%20studio-346ac1?style=for-the-badge&logo=android%20studio&logoColor=white">
 <img src="https://img.shields.io/badge/IntelliJ_IDEA-000000.svg?style=for-the-badge&logo=intellij-idea&logoColor=white">
 <img src="https://img.shields.io/badge/-Arduino-00979D?style=for-the-badge&logo=Arduino&logoColor=white">
+<img src="https://img.shields.io/badge/python-3776AB?style=for-the-badge&logo=python&logoColor=white">
 </div>
 
 # 최초의 프로젝트 계획안
@@ -28,11 +29,11 @@ AI 스마트 CCTV 시스템 프로젝트(8월22일 ~ 8월30일)
 4. [08-27(화)   블루투스, UDP 서버 통신 연결 구현](#0827화)
    > 번외 아두이노 코딩 https://github.com/gdh1210/Arduino-subomotor-
    
-5. [08-28(수)   ](#0828수)
+5. [08-28(수)   openAI 서버 구현 ](#0828수)
    
-6. [08-29(목)   ](#0829목)
+6. [08-29(목)   음성 인식 기능 구성](#0829목)
     
-7. [08-30(금)   ](#0830금)
+7. [08-30(금)   음성 통화 기능 구현](#0830금)
 
 ---
 ### 08.22(목)
