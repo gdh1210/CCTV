@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <gradient
+        android:angle="20"
+        android:centerColor="#204060"
+        android:endColor="#202020"
+        android:startColor="#303030"
+        android:type="linear" /> <!-- 내부 색상 (배경색) -->
+    <stroke
+        android:width="0dp"
+        android:color="#2196F3" /> <!-- 테두리 색상과 두께 -->
+    <padding
+        android:left="2dp"
+        android:top="2dp"
+        android:right="2dp"
+        android:bottom="2dp" />
+    <corners android:radius="5dp" /> <!-- 모서리 둥글기 -->
+</shape>
