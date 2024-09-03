@@ -1186,6 +1186,16 @@ public class ControlCCTVActivity extends AppCompatActivity {
 
 # voice.java
 
+음성 통화 기능을 만들기 위해 외부프로그램을 활용하여 서버와 임의의 사용자를 구축을 먼저 진행 하도록 하겠다.<br>
+사용된 외부프로그램은 참조 탭의 [음성통화 호스트](#음성통화-호스트) 와 [음성통화 클라이언트](#음성통화-클라이언트) 에서 다운로드 하였으며 링크를 걸어두었다.<br>
+
+
+<div align="center">
+<img src="https://github.com/user-attachments/assets/65338213-fe66-47da-8066-fbbc0519d0a0" width="800" height="400">
+<img src="" width="400" height="600">
+</div>
+
+
 오픈소스를 활용하여 필요한 부분만 짜집기 하여 코드를 가져와 사용하였다.<br>
 외부라이브러리 AJVoIP.jar 를 참조해야 하며 다운로드 링크는 문서 하단의 참조에 달아놓았다.
 
