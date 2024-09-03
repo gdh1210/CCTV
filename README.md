@@ -1111,7 +1111,49 @@ public class ControlCCTVActivity extends AppCompatActivity {
 ---
 ### 08.28(수)
 
+파이썬 서버 제작 및 OpenAI 연결 - https://github.com/gdh1210/Python_Server_Host
 
+# ControlCCTVActivity.java
+
+파이썬 서버와 연결을 위해 약간의 수정을 통해 서버로 명령을 전송하고 UTF-8 인코딩을 적용하여 파이썬 서버에서 전달 받을시 오류가 발생하지 않게 만들었다.
+
+```java
+private void handleVoiceCommand(String command) {
+        String btCommand;
+        switch (command) {
+            case "위로":
+                btCommand = "U";
+                break;
+            case "아래로":
+                btCommand = "D";
+                break;
+            case "왼쪽":
+                btCommand = "L";
+                break;
+            case "오른쪽":
+                btCommand = "R";
+                break;
+            default:
+                btCommand = command; // 선택지에 없는 입력은 그대로 사용
+                break;
+        }
+        sendUdpMessage(btCommand);
+    }
+
+private void sendUdpMessage(String msgText) {
+        new Thread(() -> {
+            try (DatagramSocket ds = new DatagramSocket()) {
+                InetAddress ia = InetAddress.getByName("192.168.0.34");
+                // 명시적으로 UTF-8로 인코딩
+                byte[] sendData = msgText.getBytes("UTF-8");
+                DatagramPacket dp = new DatagramPacket(sendData, sendData.length, ia, 9999);
+                ds.send(dp);
+            } catch (Exception e) {
+                Log.e("UDPClient", "Exception: " + e.getMessage(), e);
+            }
+        }).start();
+    }
+```
 
 ---
 ### 08.29(목)
