@@ -1,5 +1,5 @@
 <div align="center">
-<img src="https://capsule-render.vercel.app/api?type=waving&color=gradient&height=350&&section=header&text=CCTV%20AIoT%20project&fontSize=90">
+<img src="https://capsule-render.vercel.app/api?type=waving&color=0:83a4d4,100:b6fbff&height=350&&section=header&text=CCTV%20AIoT%20project&fontColor=FFFFFF&stroke=202020&fontSize=90&animation=fadeIn">
 </div>
 
 <div align="center">
