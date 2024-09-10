@@ -1578,8 +1578,8 @@ public class voice extends Activity
 * 네트워크 접속 환경에 따라 IP 주소가 바뀌면 수동으로 전부 바꿔 주어야 하는데 전역변수로 빼서 동적으로 할당하는 방식을 하려 했지만 실패했다.
 * UDP 서버와의 통신과정에서 파이썬 서버를 사용하지 않고 안드로이드에서 OpenAI를 연결해 통신 횟수를 줄이려고 했으나 Gpt 모델은 java API 를 지원하지 않고 지원가능한 제미나이 API를 사용했으나 기존에 만들어두었던 통신 코드를 갈아 엎어야 되어서 포기했다.
 
-<br>
-### 참조 <br>
+
+### 참조
 CCTV 앱 구성 참조1 - http://gigatongsin.com/contents/lg/cctv/home_cctv_app_remote.php <br>
 CCTV 앱 구성 참조2 - https://kr.freepik.com/premium-photo/home-security-concept-smartphone-with-smart-home-app-surveillance-cctv-camera-desk_27388830.htm <br>
 CCTV 앱 구성 참조3 - https://inditor.co.kr/bbs/board.php?bo_table=app&wr_id=22 <br>
