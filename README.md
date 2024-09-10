@@ -1579,7 +1579,7 @@ public class voice extends Activity
 * UDP 서버와의 통신과정에서 파이썬 서버를 사용하지 않고 안드로이드에서 OpenAI를 연결해 통신 횟수를 줄이려고 했으나 Gpt 모델은 java API 를 지원하지 않고 지원가능한 제미나이 API를 사용했으나 기존에 만들어두었던 통신 코드를 갈아 엎어야 되어서 포기했다.
 
 <br>
-참조 <br>
+### 참조 <br>
 CCTV 앱 구성 참조1 - http://gigatongsin.com/contents/lg/cctv/home_cctv_app_remote.php <br>
 CCTV 앱 구성 참조2 - https://kr.freepik.com/premium-photo/home-security-concept-smartphone-with-smart-home-app-surveillance-cctv-camera-desk_27388830.htm <br>
 CCTV 앱 구성 참조3 - https://inditor.co.kr/bbs/board.php?bo_table=app&wr_id=22 <br>
